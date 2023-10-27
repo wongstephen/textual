@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+#root {
+  /* #3FD2C7 #99DDFF #00458B */
+  --theme-cyan: #3fd2c7;
+  --theme-light-blue: #99ddff;
+  --theme-dark-blue: #00458b;
+  --main-font: font-family: 'Inter', sans-serif;
+  font-size: 62.5%;
+}
+
+.app {
+  font-family: var(--main-font);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 100vh;
+  width: 100%;
+  padding: 1rem;
+}
+
+.header {
+  overflow: hidden;
+  width: 100%;
+  mask: linear-gradient(90deg, transparent, white 20%, white 90%, transparent);
+  margin: 0.25rem;
+}
+
+.h1 {
+  font-size: 2rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  color: var(--theme-dark-blue);
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.footer {
+  background-color: #f1f1f1;
+  width: 100%;
+  min-height: 10rem;
+}
+
+/* for form labels accessibility */
+.visually-hidden {
+  position: absolute;
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.form__textarea {
+  width: 100%;
+  max-width: 800px;
+  height: 10rem;
+}
+
+.form__button {
+  margin-top: 1rem;
+  padding: 10px 20px;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.form__button:hover {
+  background-color: #2980b9;
+}

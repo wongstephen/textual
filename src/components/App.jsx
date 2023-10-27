@@ -1,7 +1,7 @@
 import "./App.css";
 import { useRef, useState } from "react";
 import { OpenAI } from "openai";
-import Result from "./components/Result";
+import Result from "./Result";
 
 function App() {
   const textRef = useRef("");
@@ -19,7 +19,7 @@ function App() {
     try {
       if (!textRef.current.value) return;
       const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4",
         messages: [{ role: "user", content: textRef.current.value }],
         temperature: 1,
         max_tokens: 256,
@@ -46,19 +46,26 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <Result results={results} />
-      <form onSubmit={handleSubmit}>
-        <textarea ref={textRef} className="form__textarea" />
-        <br />
-        <button
-          onClick={handleSubmit}
-          className="form__button"
-          disabled={isDisabled}
-        >
-          Submit
-        </button>
-      </form>
+    <div className="app">
+      <header className="header">
+        <h1 className="h1">ChatGPT 4</h1>
+      </header>
+      <main className="main">
+        <Result results={results} />
+      </main>
+      <div className="footer">
+        <form onSubmit={handleSubmit}>
+          <textarea ref={textRef} className="form__textarea" />
+          <br />
+          <button
+            onClick={handleSubmit}
+            className="form__button"
+            disabled={isDisabled}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

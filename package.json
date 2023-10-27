@@ -1,12 +1,13 @@
 {
-  "name": "WorkGpt",
+  "name": "incognito-gpt",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "docker:dev": "docker-compose up -d"
   },
   "dependencies": {
     "openai": "^4.11.1",
