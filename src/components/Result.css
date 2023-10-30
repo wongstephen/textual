@@ -1,9 +1,29 @@
-.result {
+.results {
   width: 100%;
+  max-width: var(--screen-max-width);
+  background: #000000;
+}
+
+.results-container {
+  transform: var(--nb-transform);
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  border: 2px solid black;
+  background: #ffffff;
+}
+
+.result {
+  line-height: 1.2;
+  letter-spacing: 0.1px;
+  width: 100%;
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 2em;
+  max-width: 1024px;
+  margin: 0 auto;
 }
 
 .svg--userIcon,
@@ -18,7 +38,7 @@
 }
 
 .div__prompt__text {
-  font-size: 1rem;
+  font-size: 1.5em;
   font-weight: 400;
   color: #212121;
 }
@@ -33,10 +53,32 @@
   margin: 0;
   text-align: left;
   white-space: pre-wrap;
+  font-size: 1.5em;
 }
 
 .result__info-text {
   font-size: 10px;
   color: gray;
   text-align: right;
+}
+
+.results__icon {
+  width: 2em;
+  height: 2em;
+  background-color: white;
+  border-radius: 100%;
+  border: 2px solid black;
+  transform: var(--nb-transform);
+  padding: 0.5em;
+}
+
+.results__icon-user {
+  background-color: #0f8f04;
+  color: white;
+  stroke: 2px;
+}
+
+.results__icon-ai {
+  background-color: var(--theme-dark-blue);
+  color: white;
 }

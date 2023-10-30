@@ -1,40 +1,38 @@
 import React from "react";
 import "./Result.css";
-import userIco from "../assets/user-regular.svg";
-import compoterIco from "../assets/computer-solid.svg";
+import { ChatBubble } from "./Elements/ChatBubble";
+import { UserIcon } from "./Elements/UserIcon";
+
 const Result = ({ results }) => {
   return (
-    <div>
-      {results.map((result, idx) => {
-        return (
-          <section className="result" key={idx}>
-            <div className="prompt">
-              <div>
-                <img src={userIco} className="svg--userIcon" alt="user" />
+    <section className="results">
+      <div className="results-container">
+        {results.map((result, idx) => {
+          return (
+            <div className="result" key={idx}>
+              <div className="prompt">
+                <div className="results__icon-wrapper">
+                  <UserIcon className="results__icon results__icon-user" />
+                </div>
+                <p className="div__prompt__text">{result.prompt}</p>
               </div>
-              <p className="div__prompt__text">{result.prompt}</p>
-            </div>
-            <div className="response">
-              <div>
-                <img
-                  src={compoterIco}
-                  alt="computer icon"
-                  className="svg--computerIcon"
-                ></img>
-              </div>
-              <div>
-                <p className="result__text">{result.res}</p>
-                <p className="result__info-text">
-                  Total tokens used: {result.tokens} & Total cost: $
-                  {(result.tokens / 1000) * 0.002}
-                </p>
-     
+              <div className="response">
+                <div className="results__icon-wrapper">
+                  <ChatBubble className="results__icon results__icon-ai" />
+                </div>
+                <div>
+                  <p className="result__text">{result.res}</p>
+                  <p className="result__info-text">
+                    Total tokens used: {result.tokens} & Total cost: $
+                    {(result.tokens / 1000) * 0.002}
+                  </p>
+                </div>
               </div>
             </div>
-          </section>
-        );
-      })}
-    </div>
+          );
+        })}
+      </div>
+    </section>
   );
 };
 
