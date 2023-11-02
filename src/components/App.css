@@ -70,7 +70,7 @@ body {
 
 .input-section {
   width: 100%;
-  padding: 4em 0;
+  padding: 1em 0;
 }
 
 .input-section__form-wrapper {
@@ -105,7 +105,7 @@ body {
 }
 
 .input-section__form__button {
-  padding: 1em 2em;
+  padding: 1em 1em;
   letter-spacing: 1.2px;
   font-weight: 700;
   background-color: #3498db;
