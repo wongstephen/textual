@@ -5,6 +5,7 @@ import styles from "./ChatComponent.module.css";
 import { marked } from "marked";
 import { fetchOpenAIResponse } from "@/utils/api";
 import text from "@/locales/en.json";
+import ThreeDots from "@/components/ThreeDots";
 
 export default function ChatComponent() {
   const [response, setResponse] = useState<[string, string][]>([]);
@@ -51,7 +52,12 @@ export default function ChatComponent() {
             <p className={styles.resTitle}>{text.prompt}</p>
             <p>{prompt}</p>
             <p className={styles.resTitle}>{text.answer}</p>
-            <p dangerouslySetInnerHTML={{ __html: marked(answer) }} />
+
+            {answer ? (
+              <p dangerouslySetInnerHTML={{ __html: marked(answer) }} />
+            ) : (
+              <ThreeDots className={styles.throbber} />
+            )}
           </div>
         ))}
       </div>

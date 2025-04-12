@@ -46,3 +46,7 @@
   color: var(--foreground);
   text-transform: uppercase;
 }
+
+.throbber {
+  color: var(--foreground);
+}
