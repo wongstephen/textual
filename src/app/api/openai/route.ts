@@ -1,0 +1,46 @@
+import OpenAI from "openai";
+
+const openAiConfig = {
+  apiKey: process.env.OPENAI_API_KEY,
+};
+
+export async function POST(request: Request) {
+  const { prompt } = await request.json();
+
+  if (!prompt) {
+    return new Response("No prompt provided", { status: 400 });
+  }
+
+  const client = new OpenAI(openAiConfig);
+
+  const stream = await client.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+    temperature: 0.7,
+    stream: true,
+  });
+
+  const encoder = new TextEncoder();
+
+  return new Response(
+    new ReadableStream({
+      async start(controller) {
+        for await (const chunk of stream) {
+          const text = chunk.choices[0].delta?.content || "";
+          controller.enqueue(encoder.encode(text));
+        }
+        controller.close();
+      },
+    }),
+    {
+      headers: {
+        "Content-Type": "text/plain; charset=utf-8",
+      },
+    }
+  );
+}
