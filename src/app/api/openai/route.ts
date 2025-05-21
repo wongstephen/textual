@@ -1,5 +1,7 @@
 import OpenAI from "openai";
 
+const GPT_MODEL = "gpt-4.1";
+
 const openAiConfig = {
   apiKey: process.env.OPENAI_API_KEY,
 };
@@ -14,7 +16,7 @@ export async function POST(request: Request) {
   const client = new OpenAI(openAiConfig);
 
   const stream = await client.chat.completions.create({
-    model: "gpt-4o",
+    model: GPT_MODEL,
     messages: [
       {
         role: "user",
@@ -31,6 +33,7 @@ export async function POST(request: Request) {
     new ReadableStream({
       async start(controller) {
         for await (const chunk of stream) {
+          console.log(chunk);
           const text = chunk.choices[0].delta?.content || "";
           controller.enqueue(encoder.encode(text));
         }
