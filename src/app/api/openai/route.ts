@@ -10,7 +10,7 @@ export async function POST(request: Request) {
   const { prompt } = await request.json();
 
   if (!prompt) {
-    return new Response("No prompt provided", { status: 400 });
+    return new Response("No prompt provided", { status: 422 });
   }
 
   const client = new OpenAI(openAiConfig);
