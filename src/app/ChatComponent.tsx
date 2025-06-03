@@ -20,8 +20,6 @@ export default function ChatComponent() {
 
     const res = await fetchOpenAIResponse(prompt);
 
-    console.log("Response body:", res);
-
     if (!res.ok || !res.body) {
       const errorMessage = `Error ${res.status} ${res.statusText}, please try again later.`;
       setResponse((prev) => [...prev.slice(0, -1), [prompt, errorMessage]]);
