@@ -1,5 +1,9 @@
 {
-  "title": "Hello, World!",
+  "title": "Textual Chat AI Assistant",
   "prompt": "Prompt",
-  "answer": "Answer"
+  "answer": "Answer",
+  "clearHistory": "Clear Conversation History",
+  "loading": "Loading...",
+  "send": "Send",
+  "promptPlaceholder": "Ask me something..."
 }

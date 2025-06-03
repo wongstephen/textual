@@ -1,12 +1,35 @@
+.container {
+  --spacing-gap-md: 1rem;
+  --border-radius-md: 0.5rem;
+  display: grid;
+  gap: var(--spacing-gap-md);
+}
+
+.titleImage {
+  border-radius: 1.25rem;
+  width: 300px;
+  height: auto;
+}
+
+/* chat component style */
+
 .chatResponse {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  display: grid;
+  gap: 0.75rem;
+
+  & .chatItem {
+    display: grid;
+    gap: var(--spacing-gap-md);
+    padding: 1rem;
+    border-radius: var(--border-radius-md);
+    background-color: var(--accent);
+    color: var(--foreground);
+  }
 
   & pre {
     margin: 1rem;
     padding: 1rem;
-    border-radius: 0.25rem;
+    border-radius: var(--border-radius-md);
     background-color: var(--accent);
     overflow-wrap: break-word;
     word-wrap: break-word;
@@ -18,9 +41,29 @@
   }
 }
 
+.resTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.throbber {
+  color: var(--foreground);
+}
+
+/* button style */
+
+.clearButton {
+  justify-self: center;
+}
+
+/* form style */
+
 .chatForm {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  gap: var(--spacing-gap-md);
 
   & textarea {
     max-width: 100%;
@@ -33,20 +76,23 @@
     field-sizing: content;
   }
 
-  & button {
-    align-self: flex-end;
-    margin-top: 0.5rem;
-    padding: 0.5rem 1rem;
+  & textarea:not(:placeholder-shown):valid {
+    outline: 1px solid var(--clr-sucess);
+  }
+
+  & textarea:not(:placeholder-shown):invalid {
+    outline: 1px solid var(--clr-error);
+  }
+
+  &textarea:focus:invalid {
+    outline: 1px solid var(--clr-warning);
+  }
+
+  & > button {
+    justify-self: end;
   }
 }
 
-.resTitle {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--foreground);
-  text-transform: uppercase;
-}
-
-.throbber {
-  color: var(--foreground);
+.formGroup {
+  display: grid;
 }

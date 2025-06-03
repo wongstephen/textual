@@ -8,7 +8,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Chat Completion",
+  title: "Textual",
 };
 
 export default function RootLayout({

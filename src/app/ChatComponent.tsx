@@ -6,23 +6,48 @@ import { marked } from "marked";
 import { fetchOpenAIResponse } from "@/utils/api";
 import text from "@/locales/en.json";
 import ThreeDots from "@/components/ThreeDots";
+import { Button } from "@/components/Button";
+import Image from "next/image";
+
+type ChatResponse = {
+  role: "user" | "assistant";
+  content: string;
+};
 
 export default function ChatComponent() {
-  const [response, setResponse] = useState<[string, string][]>([]);
+  const [conversationHistory, setConversationHistory] = useState<
+    [ChatResponse, ChatResponse][]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
+
+  const handleClearHistory = () => {
+    setConversationHistory([]);
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    setResponse((prev) => [...prev, [prompt, ""]]);
+    setConversationHistory((prev) => [
+      ...prev,
+      [
+        { role: "user", content: prompt },
+        { role: "assistant", content: "" },
+      ],
+    ]);
     setLoading(true);
 
     const res = await fetchOpenAIResponse(prompt);
 
     if (!res.ok || !res.body) {
       const errorMessage = `Error ${res.status} ${res.statusText}, please try again later.`;
-      setResponse((prev) => [...prev.slice(0, -1), [prompt, errorMessage]]);
+      setConversationHistory((prev) => [
+        ...prev.slice(0, -1),
+        [
+          { role: "user", content: prompt },
+          { role: "assistant", content: errorMessage },
+        ],
+      ]);
       setLoading(false);
       return;
     }
@@ -35,28 +60,45 @@ export default function ChatComponent() {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value, { stream: !doneReading });
-      setResponse((prev) => [
+      setConversationHistory((prev) => [
         ...prev.slice(0, -1),
-        [prompt, prev[prev.length - 1][1] + chunkValue],
+        [
+          { role: "user", content: prompt },
+          {
+            role: "assistant",
+            content: prev[prev.length - 1][1].content + chunkValue,
+          },
+        ],
       ]);
     }
 
+    setPrompt("");
     setLoading(false);
   };
 
   return (
-    <div>
+    <div className={styles.container}>
       <h3>{text.title}</h3>
+      <Image
+        src="/main-title.png"
+        alt="Textual Logo"
+        width={300}
+        height={300}
+        className={styles.titleImage}
+        priority
+      />
 
       <div className={styles.chatResponse}>
-        {response.map(([prompt, answer], index) => (
+        {conversationHistory.map(([user, assistant], index) => (
           <div key={index} className={styles.chatItem}>
             <p className={styles.resTitle}>{text.prompt}</p>
-            <p>{prompt}</p>
+            <p>{user.content}</p>
             <p className={styles.resTitle}>{text.answer}</p>
 
-            {answer ? (
-              <p dangerouslySetInnerHTML={{ __html: marked(answer) }} />
+            {assistant.content ? (
+              <p
+                dangerouslySetInnerHTML={{ __html: marked(assistant.content) }}
+              />
             ) : (
               <ThreeDots className={styles.throbber} />
             )}
@@ -64,13 +106,26 @@ export default function ChatComponent() {
         ))}
       </div>
 
+      {conversationHistory.length > 0 && (
+        <Button onClick={handleClearHistory} className={styles.clearButton}>
+          {text.clearHistory}
+        </Button>
+      )}
+
       <form onSubmit={handleSubmit} className={styles.chatForm}>
-        <textarea
-          value={prompt}
-          placeholder="Ask me something..."
-          onChange={(e) => setPrompt(e.target.value)}
-        />
-        <button type="submit">{loading ? "Loading..." : "Send"}</button>
+        <div className={styles.formGroup}>
+          <label htmlFor="prompt" className="sr-only">
+            {text.prompt}
+          </label>
+          <textarea
+            required
+            value={prompt}
+            placeholder={text.prompt}
+            onChange={(e) => setPrompt(e.target.value)}
+            minLength={1}
+          />
+        </div>
+        <Button type="submit">{loading ? text.loading : text.send}</Button>
       </form>
     </div>
   );
