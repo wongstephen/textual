@@ -18,14 +18,18 @@ export default function ChatComponent() {
     setResponse((prev) => [...prev, [prompt, ""]]);
     setLoading(true);
 
-    const body = await fetchOpenAIResponse(prompt);
+    const res = await fetchOpenAIResponse(prompt);
 
-    if (!body) {
+    console.log("Response body:", res);
+
+    if (!res.ok || !res.body) {
+      const errorMessage = `Error ${res.status} ${res.statusText}, please try again later.`;
+      setResponse((prev) => [...prev.slice(0, -1), [prompt, errorMessage]]);
       setLoading(false);
       return;
     }
 
-    const reader = body.getReader();
+    const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let done = false;
 
