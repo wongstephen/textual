@@ -1,4 +1,5 @@
 import cn from "@/utils/cn";
+
 import ChatComponent from "./ChatComponent";
 import styles from "./page.module.css";
 

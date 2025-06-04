@@ -1,12 +1,14 @@
 "use client";
 
-import { FormEventHandler, useState } from "react";
 import { marked } from "marked";
-import text from "@/locales/en.json";
-import cn from "@/utils/cn";
-import { fetchOpenAIResponse } from "@/utils/api";
-import ThreeDots from "@/components/ThreeDots";
+import { FormEventHandler, useState } from "react";
+
 import { Button } from "@/components/Button";
+import ThreeDots from "@/components/ThreeDots";
+import text from "@/locales/en.json";
+import { fetchOpenAIResponse } from "@/utils/api";
+import cn from "@/utils/cn";
+
 import styles from "./ChatComponent.module.css";
 
 export default function ChatComponent() {
