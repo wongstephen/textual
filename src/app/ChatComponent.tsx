@@ -1,16 +1,22 @@
 "use client";
 
 import { FormEventHandler, useState } from "react";
-import styles from "./ChatComponent.module.css";
 import { marked } from "marked";
-import { fetchOpenAIResponse } from "@/utils/api";
 import text from "@/locales/en.json";
+import cn from "@/utils/cn";
+import { fetchOpenAIResponse } from "@/utils/api";
 import ThreeDots from "@/components/ThreeDots";
+import { Button } from "@/components/Button";
+import styles from "./ChatComponent.module.css";
 
 export default function ChatComponent() {
   const [response, setResponse] = useState<[string, string][]>([]);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
+
+  const handleClearHistory = () => {
+    setResponse([]);
+  };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
@@ -43,26 +49,35 @@ export default function ChatComponent() {
   };
 
   return (
-    <div>
+    <div className={cn([styles.container])}>
       <h3>{text.title}</h3>
 
-      <div className={styles.chatResponse}>
+      <div className={cn([styles.chatResponse])}>
         {response.map(([prompt, answer], index) => (
           <div key={index} className={styles.chatItem}>
-            <p className={styles.resTitle}>{text.prompt}</p>
+            <p className={cn([styles.resTitle])}>{text.prompt}</p>
             <p>{prompt}</p>
-            <p className={styles.resTitle}>{text.answer}</p>
+            <p className={cn([styles.resTitle])}>{text.answer}</p>
 
             {answer ? (
               <p dangerouslySetInnerHTML={{ __html: marked(answer) }} />
             ) : (
-              <ThreeDots className={styles.throbber} />
+              <ThreeDots className={cn([styles.throbber])} />
             )}
           </div>
         ))}
       </div>
 
-      <form onSubmit={handleSubmit} className={styles.chatForm}>
+      {response.length > 0 && (
+        <Button
+          onClick={handleClearHistory}
+          className={cn([styles.clearButton])}
+        >
+          {text.clearHistory}
+        </Button>
+      )}
+
+      <form onSubmit={handleSubmit} className={cn([styles.chatForm])}>
         <textarea
           value={prompt}
           placeholder="Ask me something..."

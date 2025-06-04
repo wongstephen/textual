@@ -1,5 +1,6 @@
 {
   "title": "Hello, World!",
   "prompt": "Prompt",
-  "answer": "Answer"
+  "answer": "Answer",
+  "clearHistory": "Clear Conversation History"
 }
