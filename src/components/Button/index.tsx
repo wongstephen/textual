@@ -1,7 +1,9 @@
-import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import styles from "./button.module.css";
+import * as React from "react";
+
 import cn from "@/utils/cn";
+
+import styles from "./button.module.css";
 
 function Button({
   className,
