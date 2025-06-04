@@ -126,7 +126,7 @@ export default function ChatComponent() {
           <textarea
             required
             value={prompt}
-            placeholder={text.prompt}
+            placeholder={text.promptPlaceholder}
             onChange={(e) => setPrompt(e.target.value)}
             minLength={1}
           />
