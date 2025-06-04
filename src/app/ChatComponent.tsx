@@ -1,6 +1,7 @@
 "use client";
 
 import { marked } from "marked";
+import Image from "next/image";
 import { FormEventHandler, useState } from "react";
 
 import { Button } from "@/components/Button";
@@ -11,26 +12,45 @@ import cn from "@/utils/cn";
 
 import styles from "./ChatComponent.module.css";
 
+type ChatResponse = {
+  role: "user" | "assistant";
+  content: string;
+};
+
 export default function ChatComponent() {
-  const [response, setResponse] = useState<[string, string][]>([]);
+  const [conversationHistory, setConversationHistory] = useState<
+    [ChatResponse, ChatResponse][]
+  >([]);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
 
   const handleClearHistory = () => {
-    setResponse([]);
+    setConversationHistory([]);
   };
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    setResponse((prev) => [...prev, [prompt, ""]]);
+    setConversationHistory((prev) => [
+      ...prev,
+      [
+        { role: "user", content: prompt },
+        { role: "assistant", content: "" },
+      ],
+    ]);
     setLoading(true);
 
     const res = await fetchOpenAIResponse(prompt);
 
     if (!res.ok || !res.body) {
       const errorMessage = `Error ${res.status} ${res.statusText}, please try again later.`;
-      setResponse((prev) => [...prev.slice(0, -1), [prompt, errorMessage]]);
+      setConversationHistory((prev) => [
+        ...prev.slice(0, -1),
+        [
+          { role: "user", content: prompt },
+          { role: "assistant", content: errorMessage },
+        ],
+      ]);
       setLoading(false);
       return;
     }
@@ -43,28 +63,45 @@ export default function ChatComponent() {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value, { stream: !doneReading });
-      setResponse((prev) => [
+      setConversationHistory((prev) => [
         ...prev.slice(0, -1),
-        [prompt, prev[prev.length - 1][1] + chunkValue],
+        [
+          { role: "user", content: prompt },
+          {
+            role: "assistant",
+            content: prev[prev.length - 1][1].content + chunkValue,
+          },
+        ],
       ]);
     }
 
+    setPrompt("");
     setLoading(false);
   };
 
   return (
     <div className={cn([styles.container])}>
       <h3>{text.title}</h3>
+      <Image
+        src="/main-title.png"
+        alt="Textual Logo"
+        width={300}
+        height={300}
+        className={cn([styles.titleImage])}
+        priority
+      />
 
-      <div className={cn([styles.chatResponse])}>
-        {response.map(([prompt, answer], index) => (
+      <div className={styles.chatResponse}>
+        {conversationHistory.map(([user, assistant], index) => (
           <div key={index} className={styles.chatItem}>
-            <p className={cn([styles.resTitle])}>{text.prompt}</p>
-            <p>{prompt}</p>
-            <p className={cn([styles.resTitle])}>{text.answer}</p>
+            <p className={styles.resTitle}>{text.prompt}</p>
+            <p>{user.content}</p>
+            <p className={styles.resTitle}>{text.answer}</p>
 
-            {answer ? (
-              <p dangerouslySetInnerHTML={{ __html: marked(answer) }} />
+            {assistant.content ? (
+              <p
+                dangerouslySetInnerHTML={{ __html: marked(assistant.content) }}
+              />
             ) : (
               <ThreeDots className={cn([styles.throbber])} />
             )}
@@ -72,7 +109,7 @@ export default function ChatComponent() {
         ))}
       </div>
 
-      {response.length > 0 && (
+      {conversationHistory.length > 0 && (
         <Button
           onClick={handleClearHistory}
           className={cn([styles.clearButton])}
@@ -81,13 +118,20 @@ export default function ChatComponent() {
         </Button>
       )}
 
-      <form onSubmit={handleSubmit} className={cn([styles.chatForm])}>
-        <textarea
-          value={prompt}
-          placeholder="Ask me something..."
-          onChange={(e) => setPrompt(e.target.value)}
-        />
-        <button type="submit">{loading ? "Loading..." : "Send"}</button>
+      <form onSubmit={handleSubmit} className={styles.chatForm}>
+        <div className={styles.formGroup}>
+          <label htmlFor="prompt" className="sr-only">
+            {text.prompt}
+          </label>
+          <textarea
+            required
+            value={prompt}
+            placeholder={text.promptPlaceholder}
+            onChange={(e) => setPrompt(e.target.value)}
+            minLength={1}
+          />
+        </div>
+        <Button type="submit">{loading ? text.loading : text.send}</Button>
       </form>
     </div>
   );

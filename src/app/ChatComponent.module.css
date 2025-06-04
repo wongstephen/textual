@@ -1,9 +1,15 @@
 .container {
   --spacing-gap-md: 1rem;
   --border-radius-md: 0.5rem;
-
+  
   display: grid;
   gap: var(--spacing-gap-md);
+}
+
+.titleImage {
+  border-radius: 1.25rem;
+  width: 300px;
+  height: auto;
 }
 
 /* chat component style */
@@ -35,6 +41,19 @@
     border-bottom: 1px solid var(--accent);
   }
 }
+
+.resTitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--foreground);
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
+.throbber {
+  color: var(--foreground);
+}
+
 /* button style */
 
 .clearButton {
