@@ -2,5 +2,8 @@
   "title": "Textual Chat AI Assistant",
   "prompt": "Prompt",
   "answer": "Answer",
-  "clearHistory": "Clear Conversation History"
+  "clearHistory": "Clear Conversation History",
+  "loading": "Loading...",
+  "send": "Send",
+  "promptPlaceholder": "Ask me something..."
 }
