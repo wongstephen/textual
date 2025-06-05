@@ -11,6 +11,7 @@ import { fetchOpenAIResponse } from "@/utils/api";
 import cn from "@/utils/cn";
 
 import styles from "./ChatComponent.module.css";
+import common from "./common.module.css";
 
 type ChatResponse = {
   role: "user" | "assistant";
@@ -100,6 +101,7 @@ export default function ChatComponent() {
 
             {assistant.content ? (
               <p
+                className={cn([common["text-body"]])}
                 dangerouslySetInnerHTML={{ __html: marked(assistant.content) }}
               />
             ) : (
