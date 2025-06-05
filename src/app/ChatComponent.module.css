@@ -1,7 +1,7 @@
 .container {
   --spacing-gap-md: 1rem;
   --border-radius-md: 0.5rem;
-  
+
   display: grid;
   gap: var(--spacing-gap-md);
 }
