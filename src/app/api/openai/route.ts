@@ -7,22 +7,13 @@ const openAiConfig = {
 };
 
 export async function POST(request: Request) {
-  const { prompt } = await request.json();
-
-  if (!prompt) {
-    return new Response("No prompt provided", { status: 422 });
-  }
+  const { conversation_history } = await request.json();
 
   const client = new OpenAI(openAiConfig);
 
   const stream = await client.chat.completions.create({
     model: GPT_MODEL,
-    messages: [
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
+    messages: conversation_history,
     temperature: 0.7,
     stream: true,
   });
