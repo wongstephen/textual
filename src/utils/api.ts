@@ -1,10 +1,17 @@
-export async function fetchOpenAIResponse(prompt: string): Promise<Response> {
+export type ChatResponse = {
+  role: "user" | "assistant";
+  content: string;
+};
+
+export async function fetchOpenAIResponse(
+  conversation_history: ChatResponse[]
+): Promise<Response> {
   const res = await fetch("/api/openai", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify({ conversation_history }),
   });
 
   if (!res.ok) {

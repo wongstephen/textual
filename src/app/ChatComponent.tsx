@@ -7,16 +7,11 @@ import { FormEventHandler, useState } from "react";
 import { Button } from "@/components/Button";
 import ThreeDots from "@/components/ThreeDots";
 import text from "@/locales/en.json";
-import { fetchOpenAIResponse } from "@/utils/api";
+import { type ChatResponse, fetchOpenAIResponse } from "@/utils/api";
 import cn from "@/utils/cn";
 
 import styles from "./ChatComponent.module.css";
 import common from "./common.module.css";
-
-type ChatResponse = {
-  role: "user" | "assistant";
-  content: string;
-};
 
 export default function ChatComponent() {
   const [conversationHistory, setConversationHistory] = useState<
@@ -41,7 +36,10 @@ export default function ChatComponent() {
     ]);
     setLoading(true);
 
-    const res = await fetchOpenAIResponse(prompt);
+    const res = await fetchOpenAIResponse([
+      ...conversationHistory.slice(-3).flat(1),
+      { role: "user", content: prompt },
+    ]);
 
     if (!res.ok || !res.body) {
       const errorMessage = `Error ${res.status} ${res.statusText}, please try again later.`;
