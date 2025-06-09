@@ -1,7 +1,6 @@
 "use client";
 
 import { marked } from "marked";
-import Image from "next/image";
 import { FormEventHandler, useState } from "react";
 
 import { Button } from "@/components/Button";
@@ -81,15 +80,6 @@ export default function ChatComponent() {
   return (
     <div className={cn([styles.container])}>
       <h3>{text.title}</h3>
-      <Image
-        src="/main-title.png"
-        alt="Textual Logo"
-        width={300}
-        height={300}
-        className={cn([styles.titleImage])}
-        priority
-      />
-
       <div className={styles.chatResponse}>
         {conversationHistory.map(([user, assistant], index) => (
           <div key={index} className={styles.chatItem}>
