@@ -78,6 +78,14 @@ export default function ChatComponent() {
     setLoading(false);
   };
 
+  function handleCopyToClipboard(prompt: string): void {
+    if (typeof navigator !== "undefined" && navigator.clipboard) {
+      navigator.clipboard.writeText(prompt).catch((error) => {
+        console.error("Failed to copy text to clipboard:", error);
+        alert("Unable to copy text to clipboard. Please try again.");
+      });
+    }
+  }
   return (
     <div className={cn([styles.container])}>
       <h3>{text.title}</h3>
@@ -94,7 +102,9 @@ export default function ChatComponent() {
         {conversationHistory.map(([user, assistant], index) => (
           <div key={index} className={styles.chatItem}>
             <p className={styles.resTitle}>{text.prompt}</p>
-            <p>{user.content}</p>
+            <p className={styles['user-prompt']} onClick={() => handleCopyToClipboard(user.content)}>
+              {user.content}
+            </p>
             <p className={styles.resTitle}>{text.answer}</p>
 
             {assistant.content ? (
