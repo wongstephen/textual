@@ -62,6 +62,15 @@
 
 /* form style */
 
+.user-prompt {
+  cursor: pointer;
+  transition: background-color 0.25s 0.25s;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
 .chatForm {
   display: grid;
   gap: var(--spacing-gap-md);
