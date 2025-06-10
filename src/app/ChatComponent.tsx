@@ -80,7 +80,10 @@ export default function ChatComponent() {
 
   function handleCopyToClipboard(prompt: string): void {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(prompt).catch(() => {});
+      navigator.clipboard.writeText(prompt).catch((error) => {
+        console.error("Failed to copy text to clipboard:", error);
+        alert("Unable to copy text to clipboard. Please try again.");
+      });
     }
   }
   return (
