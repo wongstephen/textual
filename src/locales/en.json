@@ -5,5 +5,15 @@
   "clearHistory": "Clear Conversation History",
   "loading": "Loading...",
   "send": "Send",
-  "promptPlaceholder": "Ask me something..."
+  "promptPlaceholder": "Ask me something...",
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "password": "Password",
+    "rememberMe": "Remember Me",
+    "submit": "Login",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "register": "Register"
+  }
 }
