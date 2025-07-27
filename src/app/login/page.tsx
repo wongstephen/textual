@@ -1,26 +1,28 @@
+"use client";
+
 import React from "react";
 
-import text from "@/locales/en.json";
+import { login } from "@/lib/auth/auth";
 
 import style from "./page.module.css";
 
-const userLogin = async (formData: FormData) => {
-  "use server";
+// const userLogin = async (formData: FormData) => {
+//   "use server";
 
-  const rawFormData = {
-    userName: formData.get("userName"),
-    password: formData.get("password"),
-    rememberMe: (formData.get("rememberMe") && true) || false,
-  };
+//   const rawFormData = {
+//     userName: formData.get("userName"),
+//     password: formData.get("password"),
+//     rememberMe: (formData.get("rememberMe") && true) || false,
+//   };
 
-  // placeholder for actual login logic
-  console.log("User login data:", rawFormData);
-};
+//   // placeholder for actual login logic
+//   console.log("User login data:", rawFormData);
+// };
 
 export default function Login() {
   return (
     <div className={style.loginContainer}>
-      <form action={userLogin}>
+      {/* <form action={userLogin}>
         <input
           placeholder={text.login.username}
           name="userName"
@@ -37,7 +39,9 @@ export default function Login() {
           <input type="checkbox" name="rememberMe" /> {text.login.rememberMe}
         </div>
         <button type="submit">{text.login.submit}</button>
-      </form>
+      </form> */}
+
+      <button onClick={() => login()}>Sign in with GitHub</button>
     </div>
   );
 }
